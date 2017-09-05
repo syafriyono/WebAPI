@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Product</title>
+	<meta charset="utf-8" />
+</head>
+<body>
+    <div>
+        <h2>All Products</h2>
+        <ul id="products"></ul>
+    </div>
+    <div>
+        <h2>Seacrh by ID Product</h2>
+        <input type="text" id="prodId" size="5" />
+        <input type="button" value="Search" onclick="find();" />
+        <p id="product"></p>
+    </div>
+    <script src="Scripts/jquery-1.10.2.min.js"></script>
+    <script>
+        var uri = 'api/products';
+        //GETAllProducts
+        $(document).ready(function () {
+            $.getJSON(uri)
+            .done(function (data) {
+                $.each(data, function (key, item) {
+                    $('<li>', { html: formatItem(item) }).appendTo($('#products'));
+                });
+            });
+        });
+
+        function formatItem(item)
+        {
+            return item.Name + ': ' + item.Price;
+        }
+        //GetProduct
+        function find()
+        {
+            var id = $('#prodId').val();
+            //============ getJSON ======================
+            $.getJSON(uri +'/'+ id)
+           .done(function (data) {
+                $('#product').html(formatItem(data));
+           })
+            .fail(function (jqXHR, textStatus, err) {
+               $('#product').html('Error' + err);
+             });
+            //============ ajax=================
+           // $.ajax({
+             //   url: 'api/products/' + id,
+               // type: 'GET',
+               // success: function (data) {
+                 //   $('#product').html(formatItem(data));
+               // }
+           // });
+        }
+    </script>
+</body>
+</html>
