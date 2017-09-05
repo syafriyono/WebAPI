@@ -34,10 +34,5 @@ namespace WebAPI.Controllers
             }
             return Ok(product);
         }
-
-        public IEnumerable<Product> getByCategory(string category)
-        {
-            return products.Where((p) => string.Equals(p.Category, category, StringComparison.OrdinalIgnoreCase));
-        }
     } 
 }
